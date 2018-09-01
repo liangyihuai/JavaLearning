@@ -1,9 +1,12 @@
 package com.huai.automaton.finite;
 
+import com.huai.automaton.Automaton;
+import com.huai.automaton.Result;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public class FiniteAutomaton {
+public class FiniteAutomaton implements Automaton {
 	private final FiniteState initial;
 	
 	public FiniteAutomaton(final FiniteState initial) {
@@ -14,11 +17,11 @@ public class FiniteAutomaton {
 		return this.initial;
 	}
 	
-	public Result testWord(final String word) {
-		return testWord(getInitial(), word, 0, new Result(word));
+	public FiniteResult testWord(final String word) {
+		return testWord(getInitial(), word, 0, new FiniteResult(word));
 	}
 	
-	private Result testWord(final FiniteState state, final String word, final Integer index, final Result result) {
+	private FiniteResult testWord(final FiniteState state, final String word, final Integer index, final FiniteResult result) {
 		result.addState(state);
 		
 		if (index >= word.length()) {
@@ -27,7 +30,7 @@ public class FiniteAutomaton {
 		
 		final List<FiniteState> states = state.getState(word.charAt(index));
 		
-		Result nextResult = null;
+		FiniteResult nextResult = null;
 		for (FiniteState next : states) {
 			nextResult = testWord(next, word, index+1, result.clone());
 			if (nextResult.isValid()) {
@@ -38,11 +41,11 @@ public class FiniteAutomaton {
 		return nextResult;
 	}
 	
-	protected class Result implements Cloneable {
+	protected class FiniteResult implements Result, Cloneable {
 		private String word;
 		private List<FiniteState> states;
 
-		public Result(final String word) {
+		public FiniteResult(final String word) {
 			this.word = word;
 			this.states = new LinkedList<FiniteState>();
 		}
@@ -65,8 +68,8 @@ public class FiniteAutomaton {
 		}
 		
 		@Override
-		public Result clone() {
-			Result result = new Result(getWord());
+		public FiniteResult clone() {
+			FiniteResult result = new FiniteResult(getWord());
 			for (FiniteState state : states) {
 				result.addState(state);
 			}

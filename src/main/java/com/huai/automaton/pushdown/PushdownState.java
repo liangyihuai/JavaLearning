@@ -5,9 +5,12 @@ import com.huai.automaton.State;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 表示一个状态，每一个状态对应多个转换，因为该状态可以转换为多种其他状态。
+ */
 public class PushdownState extends State{
-    private Boolean isFinal = false;
-    private List<PushdownTransition> transitionList = new LinkedList<>();
+    private Boolean isFinal = false;//是否为结尾元素
+    private final List<PushdownTransition> transitionList = new LinkedList<>();
 
     public PushdownState(String name) {
         super(name);
@@ -17,13 +20,6 @@ public class PushdownState extends State{
         this.isFinal = true;
     }
 
-    public PushdownTransition getNullInputTransition(){
-        for(PushdownTransition transition: transitionList){
-            if(transition.getEdge().getC() == null)
-                return transition;
-        }
-        return null;
-    }
 
     public PushdownState addTransition(PushdownState state, PushdownEdge ...edges) {
         for(PushdownEdge edge: edges){
@@ -34,19 +30,18 @@ public class PushdownState extends State{
         return this;
     }
 
-    public List<PushdownState> getStates(char input){
-        List<PushdownState> result = new LinkedList<>();
-        for(PushdownTransition transition: transitionList){
-            if(transition.getEdge().getC().equals(input))
-                result.add(transition.getState());
-        }
-        return result;
-    }
 
-    public List<PushdownTransition> getTransitionList(char input){
+    /**
+     * 根据输入值来获取状态转换对象。
+     * @param input 如果为null，则返回输入值为null的转换对象
+     * @return
+     */
+    public List<PushdownTransition> getTransitionList(Character input){
         List<PushdownTransition> result = new LinkedList<>();
         for(PushdownTransition transition: transitionList){
-            if(((Character)input).equals(transition.getEdge().getC())){
+            if(input == null && transition.getEdge().getInput() == null){
+                result.add(transition);
+            }else if(input != null && input.equals(transition.getEdge().getInput())){
                 result.add(transition);
             }
         }

@@ -1,7 +1,5 @@
 package com.huai.automaton;
 
-import com.huai.automaton.finite.FiniteState;
-
 public interface Automaton {
-
+    Result testWord(String word);
 }
