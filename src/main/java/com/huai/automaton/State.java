@@ -1,4 +1,4 @@
-package com.huai.automaton.pushdown;
+package com.huai.automaton;
 
 public abstract class State {
 	private final String name;

@@ -1,6 +1,6 @@
 package com.huai.automaton.finite;
 
-import com.huai.automaton.pushdown.State;
+import com.huai.automaton.State;
 
 import java.util.LinkedList;
 import java.util.List;
