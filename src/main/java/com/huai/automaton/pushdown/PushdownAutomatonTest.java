@@ -61,6 +61,8 @@ public class PushdownAutomatonTest {
         PushdownAutomaton automaton3 = new PushdownAutomaton(s2, bottomStackChar);
         assertFalse(automaton3.testWord("aaaabbabaa").isValid());
 
+
+
         //System.out.println(result.toString());
     }
 
